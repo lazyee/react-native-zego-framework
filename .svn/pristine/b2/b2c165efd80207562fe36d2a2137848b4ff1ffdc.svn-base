@@ -1,0 +1,4 @@
+export const back_white = require('../../resource/back_white.png');
+export const goods_empty = require('../../resource/goods_empty.png');
+export const load_fail = require('../../resource/load_fail.png');
+export const loading = require('../../resource/loading.gif');

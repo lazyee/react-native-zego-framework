@@ -1,0 +1,54 @@
+import React, {Component} from 'react';
+import {requireNativeComponent, View} from 'react-native';
+
+import PropTypes from 'prop-types';
+
+const RNSmartLayout = requireNativeComponent('RNSmartRefreshLayout', RNAndroidSmartRefreshLayout);
+
+class RNAndroidSmartRefreshLayout extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    static propTypes = {
+        ...View.propTypes,
+        refreshing: PropTypes.bool,//是否refresh中
+        onRefresh: PropTypes.func,//网络请求加载数据
+        enableOverScrollDrag: PropTypes.bool,//设置是否启用越界回弹
+        enableOverScrollBounce: PropTypes.bool,//设置是否启用越界拖动（仿苹果效果）
+        dragRate: PropTypes.number, //显示拖动高度/真实拖动高度（默认0.5，阻尼效果）
+        headerMaxDragRate: PropTypes.number,//设置下拉最大高度和Header高度的比率（将会影响可以下拉的最大高度）
+        headerTriggerRate: PropTypes.number,//设置 触发刷新距离 与 HeaderHieght 的比率
+        reboundDuration: PropTypes.number,//设置回弹动画时长
+        enableRefresh: PropTypes.bool,//是否启用下拉刷新（默认启用）
+        enableHeaderTranslationContent: PropTypes.bool,//设置是否启在下拉Header的同时下拉内容
+        disableContentWhenRefresh: PropTypes.bool,//设置是否开启在刷新时候禁止操作内容视图
+        enablePureScrollMode: PropTypes.bool,//设置是否开启纯滚动模式
+        enableNestedScroll: PropTypes.bool,//设置是会否启用嵌套滚动功能（默认关闭+智能开启）
+    };
+
+    static defaultProps = {
+        enableRefresh: false
+    };
+
+    render() {
+        return (
+            <RNSmartLayout
+                ref={(srl) => {
+                    this.smartRefreshLayout = srl
+                }}
+                style={[this.props.style]}
+                enableOverScrollDrag={false}
+                enableOverScrollBounce={false}
+                disableContentWhenRefresh={false}
+                onRefresh={this.props.onRefresh}
+                {...this.props}>
+                <View>
+                    {this.props.children}
+                </View>
+            </RNSmartLayout>
+        )
+    }
+}
+
+module.exports = RNAndroidSmartRefreshLayout;
